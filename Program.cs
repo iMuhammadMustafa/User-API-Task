@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using User_API.Domain;
 using User_API.UserApi.Domain.DTOs;
@@ -19,12 +20,11 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 
-//Task<ActionResult<NewUserResponseDTO>>
+app.MapPost("/user", AddUser).WithName("AddUser").AllowAnonymous();
+app.MapGet("/user/{id}", GetUser).WithName("GetUser").RequireAuthorization();
 
-app.MapPost("/user", AddUser).WithName("AddUser");
-app.MapGet("/user", GetUser).WithName("GetUser");
 
-static async Task<IResult> AddUser([FromBody] NewUserDTO newUser, [FromServices] IUserService _userService)
+static async Task<IResult> AddUser([FromForm] NewUserDTO newUser, [FromServices] IUserService _userService)
 {
     if (newUser == null || newUser.Email == null)
     {
@@ -34,6 +34,7 @@ static async Task<IResult> AddUser([FromBody] NewUserDTO newUser, [FromServices]
     var response = await _userService.AddUser(newUser);
     return Results.Ok(response);
 }
+
 static async Task<IResult> GetUser([FromRoute] string id, [FromServices] IUserService _userService)
 {
     if (id == null) return Results.BadRequest();
@@ -41,6 +42,9 @@ static async Task<IResult> GetUser([FromRoute] string id, [FromServices] IUserSe
     if (response == null) return Results.NotFound();
     return Results.Ok(response);
 }
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 
 
