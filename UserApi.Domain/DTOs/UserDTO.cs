@@ -6,5 +6,6 @@
         public string? FirstName { get; set; }
         public string? LastName { get; set; }
         public bool MarketingConsent { get; set; }
+        public string? Email { get; set; } ////Omit Email if MarketingConsent is false in Mapper
     }
 }

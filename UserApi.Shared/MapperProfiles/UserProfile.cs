@@ -9,7 +9,10 @@ namespace User_API.UserApi.Shared.MapperProfiles
         public UserProfile()
         {
             CreateMap<User, NewUserResponseDTO>().ReverseMap();
-            CreateMap<User, UserDTO>().ReverseMap();
+            CreateMap<User, UserDTO>()
+                .ForMember(dest => dest.Email,
+                           opt => opt.MapFrom(src => src.MarketingConsent == false ? null : src.Email))     //Omit Email if MarketingConsent is false
+                .ReverseMap();
             CreateMap<User, NewUserDTO>().ReverseMap();
         }
     }
