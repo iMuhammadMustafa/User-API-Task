@@ -8,8 +8,9 @@ namespace User_API.UserApi.Shared.MapperProfiles
     {
         public UserProfile()
         {
-            CreateMap<User, PostUserDTO>().ReverseMap();
+            CreateMap<User, NewUserResponseDTO>().ReverseMap();
             CreateMap<User, UserDTO>().ReverseMap();
+            CreateMap<User, NewUserDTO>().ReverseMap();
         }
     }
 }
