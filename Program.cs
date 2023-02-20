@@ -1,3 +1,6 @@
+using Microsoft.EntityFrameworkCore;
+using User_API.Domain;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -5,6 +8,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddDbContext<AppDbContext>(opt => opt.UseSqlServer(builder.Configuration.GetConnectionString("SaqayaUserApiDB")));
+//builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 var app = builder.Build();
 
