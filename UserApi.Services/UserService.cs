@@ -6,8 +6,8 @@ namespace User_API.UserApi.Services
 {
     public interface IUserService
     {
-        public PostUserDTO AddUser(User newUser);
-        public UserDTO GetUserById(string id);
+        public Task<NewUserResponseDTO> AddUser(NewUserDTO newUser);
+        public Task<UserDTO> GetUserById(string id);
     }
     public class UserService : IUserService
     {
@@ -17,12 +17,12 @@ namespace User_API.UserApi.Services
         {
             _userRepository = userRepository;
         }
-        public PostUserDTO AddUser(User newUser)
+        public async Task<NewUserResponseDTO> AddUser(NewUserDTO newUser)
         {
             throw new NotImplementedException();
         }
 
-        public UserDTO GetUserById(string id)
+        public Task<UserDTO> GetUserById(string id)
         {
             throw new NotImplementedException();
         }
