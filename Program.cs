@@ -1,15 +1,7 @@
-using Microsoft.EntityFrameworkCore;
-using User_API.Domain;
-
+using User_API.UserApi.Shared.Helpers;
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
-builder.Services.AddDbContext<AppDbContext>(opt => opt.UseSqlServer(builder.Configuration.GetConnectionString("SaqayaUserApiDB")));
-//builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+builder.Services.AddServices();
 
 var app = builder.Build();
 
@@ -22,7 +14,17 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.MapPost("/user", () =>
+{
+    return "hello";
+})
+    .WithName("user");
 
+app.MapGet("/user", () =>
+{
+    return "hello";
+})
+    .WithName("user");
 
 
 app.Run();
