@@ -1,4 +1,7 @@
-﻿namespace User_API.UserApi.Shared.Helpers
+﻿using User_API.UserApi.Repository;
+using User_API.UserApi.Services;
+
+namespace User_API.UserApi.Shared.Helpers
 {
     public static class ServiceCollectionExtension
     {
@@ -12,7 +15,7 @@
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             // Add Database Context
-            //services.AddDbContext<AppDbContext>(opt => opt.UseSqlServer(builder.Configuration.GetConnectionString("SaqayaUserApiDB")));
+            services.AddDbContext<AppDbContext>(opt => opt.UseSqlServer(builder.Configuration.GetConnectionString("SaqayaUserApiDB")));
             //services.AddDatabaseDeveloperPageExceptionFilter();
 
 
