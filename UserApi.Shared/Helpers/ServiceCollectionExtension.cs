@@ -15,6 +15,9 @@ namespace User_API.UserApi.Shared.Helpers
         {
             // Add services to the container.
             services.AddEndpointsApiExplorer();
+
+
+            //Swagger Support
             services.AddSwaggerGen(c=>
             {
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
@@ -40,19 +43,7 @@ namespace User_API.UserApi.Shared.Helpers
             });
 
 
-            // Add Auto Mapper
-            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-
-            // Add Database Context
-            services.AddDbContext<AppDbContext>(opt => opt.UseSqlServer(configuration.GetConnectionString("SaqayaUserApiDB")));
-            //services.AddDatabaseDeveloperPageExceptionFilter();
-
-
-            //Register Services
-            services.AddScoped<IUserRepository, UserRepository>();
-            services.AddScoped<IUserService, UserService>();
-            services.AddScoped<IAuthenticationService, AuthenticationService>();
-
+            //Authentication and Authorization
             services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -72,8 +63,25 @@ namespace User_API.UserApi.Shared.Helpers
                     ValidateIssuerSigningKey = true
                 };
             });
-
             services.AddAuthorization();
+
+            //Register Services
+            services.RegisterServices(configuration);
+
+            return services;
+        }
+        public static IServiceCollection RegisterServices(this IServiceCollection services, IConfiguration configuration)
+        {
+            // Add Auto Mapper
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+            // Add Database Context
+            services.AddDbContext<AppDbContext>(opt => opt.UseSqlServer(configuration.GetConnectionString("UserApiDB")));
+            //services.AddDatabaseDeveloperPageExceptionFilter();
+
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IAuthenticationService, AuthenticationService>();
 
             return services;
         }
